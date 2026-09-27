@@ -94,9 +94,14 @@ rm -f ~/.local/bin/wvkbd-deskintl   # remove the pre-package manual copy, if any
 ```bash
 cp -r omarchy-plugin/levonium.osk ~/.config/omarchy/plugins/
 omarchy bar put levonium.osk --before omarchy.bluetooth
+omarchy restart shell
 ```
 
 Tap the keyboard icon to show/hide the keyboard. The first tap starts it.
+
+The restart matters when the plugin was removed and added back in the same
+session: the bar then shows the icon but keeps a stale copy that ignores
+clicks, and `omarchy-shell shell rescanPlugins` doesn't clear it.
 
 ### 5. Verify
 
