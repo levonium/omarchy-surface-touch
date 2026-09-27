@@ -1,0 +1,23 @@
+# wvkbd on-screen keyboard, desktop layout (Esc, Tab, Ctrl, arrows, F-keys).
+# Based on the AUR wvkbd PKGBUILD; builds the pinned upstream release.
+
+pkgname=wvkbd-deskintl
+pkgver=0.20
+pkgrel=1
+pkgdesc='On-screen keyboard for wlroots compositors (desktop layout)'
+arch=('x86_64')
+url='https://git.sr.ht/~proycon/wvkbd'
+license=('GPL-3.0-or-later')
+depends=('wayland' 'pango' 'cairo' 'glib2' 'glibc' 'harfbuzz' 'libxkbcommon')
+makedepends=('fontconfig' 'scdoc')
+options=('!debug')
+source=("wvkbd-$pkgver.tar.gz::https://git.sr.ht/~proycon/wvkbd/archive/v$pkgver.tar.gz")
+sha256sums=('330e7d41e2ccf3f984af701c0d055d919cff66710dfe05ce9d77e4ae6e1adc16')
+
+build() {
+  make -C "wvkbd-v$pkgver" LAYOUT=deskintl
+}
+
+package() {
+  make -C "wvkbd-v$pkgver" LAYOUT=deskintl PREFIX=/usr DESTDIR="$pkgdir" install
+}

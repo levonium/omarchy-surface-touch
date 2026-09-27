@@ -1,0 +1,23 @@
+# Intel Touch Host Controller driver (ithc) from the linux-surface patch set,
+# packaged for DKMS so it builds against the stock Omarchy kernel.
+# Source provenance: see ../README.md ("Where the driver comes from").
+
+pkgname=ithc-dkms
+pkgver=7.2.20260913
+pkgrel=1
+pkgdesc='Intel Touch Host Controller driver (linux-surface ithc) for DKMS'
+arch=('any')
+url='https://github.com/linux-surface/linux-surface'
+license=('GPL-2.0-only OR BSD-2-Clause')
+depends=('dkms')
+optdepends=('linux-omarchy-headers: needed to build against linux-omarchy')
+source=()
+
+package() {
+  local dest="$pkgdir/usr/src/ithc-$pkgver"
+
+  install -Dm644 -t "$dest" "$startdir"/ithc/*.c "$startdir"/ithc/*.h "$startdir"/ithc/Kbuild
+  sed "s/@PKGVER@/$pkgver/" "$startdir/dkms.conf" > "$dest/dkms.conf"
+
+  install -Dm644 "$startdir/ithc.conf" "$pkgdir/usr/lib/modprobe.d/ithc.conf"
+}

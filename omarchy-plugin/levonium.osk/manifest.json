@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "levonium.osk",
+  "name": "On-screen keyboard",
+  "version": "1.0.0",
+  "author": "levonium",
+  "license": "MIT",
+  "description": "Toggle the wvkbd on-screen keyboard from the bar",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "On-screen keyboard",
+    "description": "Tap to show or hide the on-screen keyboard",
+    "category": "System",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

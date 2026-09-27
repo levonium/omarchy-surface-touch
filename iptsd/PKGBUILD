@@ -1,0 +1,31 @@
+# iptsd: turns raw touch data from the ithc driver into multitouch and pen
+# input. Adapted from upstream's PKGBUILD to build a pinned release tarball
+# and to skip the GUI debug tools (plot/show), which pull in X11/cairo.
+
+pkgname=iptsd
+pkgver=3.1.0
+pkgrel=1
+pkgdesc='Userspace daemon for Intel Precise Touch & Stylus'
+arch=('x86_64')
+url='https://github.com/linux-surface/iptsd'
+license=('GPL-2.0-or-later')
+depends=('gcc-libs' 'glibc' 'systemd')
+makedepends=('meson' 'gcc' 'systemd')
+backup=('etc/iptsd.conf')
+options=('!debug')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/linux-surface/iptsd/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('af0aab95387a5107dfa8ac1ef90a29289f6b9d06e1a59121c9e5e732b27a266c')
+
+build() {
+  # forcefallback builds fmt/spdlog/inih/cli11/eigen/gsl from meson wraps and
+  # links them statically, so the package has no runtime deps beyond libc/systemd.
+  arch-meson "$pkgname-$pkgver" build \
+    --default-library=static \
+    --wrap-mode=forcefallback \
+    -Ddebug_tools=calibrate,dump
+  meson compile -C build
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build --skip-subprojects
+}
